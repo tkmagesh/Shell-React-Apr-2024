@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Salary Calculator</title>
+    <style>
+        .field{
+            margin-bottom: 10px;
+        }
+        label{
+            display: block;
+        }
+        td{
+            padding: 10px;
+        }
+        body{
+            margin-left: 50px;
+        }
+    </style>
+    <script src="jquery-3.7.1.js"></script>
+    <!-- 
+        Assumptions
+        1. The application is 100% functionally correct (ex, validation is not required)
+        2. Segregating the code into different files (.html, .css, .js etc) will be taken care
+     -->
+     <!-- 
+        1. Initial Version
+        2. Segregate NON-UI responsibilities from UI responsibilities
+        3. View reacting to user actions
+        4. Model emitting change event for 'salary'
+        5. accessor methods and change listeners for 'basic'
+        6. accessor methods and change listeners for all the model attributes
+        7. update the model to accommodate multiple change listeners
+            (run the following in the console to test)
+                model.subscribe('salary', function(){
+                    console.log('salary changed to ', model.get('salary'));
+                })
+        8. Creating a re-usable view class
+            // execute each line in the browser console to test
+            /* 
+            window['model'] = new SalaryCalculatorModel();
+            
+            // rendering view-1
+            var v1 = new SalaryCalculator(model)
+            v1.$viewEl.appendTo(document.body)
+            v1.render()
+            
+            // rendering view-2
+            var v2 = new SalaryCalculator(model)
+            v2.$viewEl.appendTo(document.body)
+            v2.render() 
+            */
+        9 & 10. Synchronizing the view with model changes by recreating a DOM (irrespective of the model change)
+      -->
+    <script>
+        // Domain Model (representing a SalaryCalculator)
+        // State & Behavior of a Salary Calculator
+        function SalaryCalculatorModel(){
+            // state
+            var _data = {
+                basic : 0,
+                hra : 0,
+                da : 0,
+                tax : 0,
+                salary : 0
+            };
+
+            var _changeListeners = []
+
+            this.get = function(attrName){
+                return _data[attrName]
+            };
+
+            this.set = function(attrName, value){
+                if (_data[attrName] === value) return;
+                _data[attrName] = value;
+                for(var idx = 0; idx < _changeListeners.length; idx++){
+                    var listenerFn = _changeListeners[idx]
+                    if (typeof listenerFn === 'function')
+                        listenerFn();
+                }
+            };
+
+            this.subscribe = function(listenerFn){
+                _changeListeners.push(listenerFn);
+            };
+        }
+
+        SalaryCalculatorModel.prototype.calculate = function () {
+            var gross = this.get('basic') + this.get('hra') + this.get('da'),
+                net = gross * ((100 - this.get('tax')) / 100);                
+            this.set('salary', net)
+        }
+
+        SalaryCalculatorModel.prototype.toJSON = function(){
+            return {
+                basic : this.get('basic'),
+                hra: this.get('hra'),
+                da: this.get('da'),
+                tax: this.get('tax'),
+                salary: this.get('salary'),
+            }
+        }
+
+
+        // UI (View)
+        // Renders the UI & Reacts to user actions and model changes
+        function SalaryCalculator(model){
+
+            
+            
+            var $viewEl = this.$viewEl = $('<div></div>');
+
+            this.render = function(){
+                var data = model.toJSON();
+                var _template = `
+                    <section>
+                        <div class="field">
+                            <label for="">Basic :</label>
+                            <input type="number" name="" id="txtBasic" value="${data.basic}">
+                        </div>
+                        <div class="field">
+                            <label for="">HRA :</label>
+                            <input type="number" name="" id="txtHra" value="${data.hra}">
+                        </div>
+                        <div class="field">
+                            <label for="">DA :</label>
+                            <input type="number" name="" id="txtDa" value="${data.da}">
+                        </div>
+                        <div class="field">
+                            <label for="">Tax :</label>
+                            <input type="range" name="" id="rangeTax" min="0" max="30" value="${data.tax}">
+                        </div>
+                        <div class="field">
+                            <button id="btnCalculate">Calculate</button>
+                        </div>
+                        <field>
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Basic</th>
+                                        <th>HRA</th>
+                                        <th>DA</th>
+                                        <th>Tax</th>
+                                        <th>Salary</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td id="tdBasic">${data.basic}</td>
+                                        <td id="tdHra">${data.hra}</td>
+                                        <td id="tdDa">${data.da}</td>
+                                        <td id="tdTax">${data.tax}</td>
+                                        <td id="tdSalary">${data.salary}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </field>
+                    </section>
+                `
+                $viewEl.html(_template);
+            };
+
+            $viewEl.on('input', '#txtBasic', function () {
+                model.set('basic', parseInt($(this).val()));
+            });
+
+            $viewEl.on('input', '#txtHra', function () {
+                model.set('hra', parseInt($(this).val()));
+            });
+
+            $viewEl.on('input', '#txtDa', function () {
+                model.set('da', parseInt($(this).val()));
+            });
+
+            $viewEl.on('input', '#rangeTax', function () {
+                model.set('tax', parseInt($(this).val()));
+            });
+
+            $viewEl.on('click', '#btnCalculate', function () {
+                model.calculate();
+            });
+
+            model.subscribe(this.render);
+        }
+
+
+        $(function(){ // function executed when the document is loaded
+
+            // execute each line in the browser console to test
+            /* 
+            window['model'] = new SalaryCalculatorModel();
+            
+            // rendering view-1
+            var v1 = new SalaryCalculator(model)
+            v1.$viewEl.appendTo(document.body)
+            v1.render()
+            
+            // rendering view-2
+            var v2 = new SalaryCalculator(model)
+            v2.$viewEl.appendTo(document.body)
+            v2.render() 
+            */
+        });
+    </script>
+</head>
+<body>
+    <h1>Salary Calculator - v10</h1>
+    
+</body>
+</html>

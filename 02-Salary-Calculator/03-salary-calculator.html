@@ -27,6 +27,7 @@
      <!-- 
         1. Initial Version
         2. Segregate NON-UI responsibilities from UI responsibilities
+        3. View reacting to user actions
 
       -->
     <script>
@@ -57,15 +58,29 @@
 
         // UI 
         $(function(){ // function executed when the document is loaded
-            var model = new SalaryCalculatorModel();
+            // DO NOT add data to the 'window' object
+
+            window['model'] = new SalaryCalculatorModel();
+
+            $('#txtBasic').on('input', function(){
+                model.basic = parseInt($(this).val());
+            });
+
+            $('#txtHra').on('input', function(){
+                model.hra = parseInt($(this).val());
+            });
+
+            $('#txtDa').on('input', function(){
+                model.da = parseInt($(this).val());
+            });
+
+            $('#rangeTax').on('input', function(){
+                model.tax = parseInt($(this).val());
+            });
+
 
             $('#btnCalculate').on('click', function(){
-                model.basic = parseInt($('#txtBasic').val());
-                model.hra = parseInt($('#txtHra').val());
-                model.da = parseInt($('#txtDa').val());
-                model.tax = parseInt($('#rangeTax').val());
                 
-
                 model.calculate();
 
                 $('#tdBasic').text(model.basic);
@@ -78,7 +93,7 @@
     </script>
 </head>
 <body>
-    <h1>Salary Calculator - v2</h1>
+    <h1>Salary Calculator - v3</h1>
     <section>
         <div class="field">
             <label for="">Basic :</label>

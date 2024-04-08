@@ -2,6 +2,9 @@
 
 ## Magesh Kuppan
 
+## Chat
+- https://chat.olzhasar.com/r/edf55a39-98f1-4811-a291-32cba2b7481e
+
 ## Schedule
 - Session - 1   : 1:30 hrs
 - Tea Break     : 20 mins
@@ -45,3 +48,4 @@ div{This is the content of a div}
 ```
 ## Salary Calculator
 - Salary = Basic + HRA + DA - Tax
+

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VDOM Demo</title>
+    <script src="react.development.js"></script>
+    <script src="react-dom.development.js"></script>
+    <script src="babel.min.js"></script>
+    <script type="text/babel">
+        var root;
+        var counter = 0;
+        function onBtnRenderClick(){
+            ++counter;
+            // VDOM
+            var appEle = (
+                <div>
+                    <h1>Welcome to React!</h1>
+                    <hr/>
+                    <div>
+                        <span>Counter :</span>
+                        <span id="spanCounter">{counter}</span>
+                    </div>
+                    <section>
+                        <h3>Introduction</h3>
+                        <p>Eu non elit do cupidatat adipisicing duis exercitation dolore consequat Lorem id occaecat. Pariatur nisi reprehenderit minim enim. Voluptate Lorem sit dolore ipsum sit ea esse eiusmod. Consequat reprehenderit nisi est aliquip cupidatat duis commodo do qui cillum proident dolor incididunt. Anim veniam Lorem veniam ullamco labore nulla amet mollit officia dolore fugiat ea consectetur duis. Id ut do dolore amet ullamco qui ut aute cupidatat incididunt. Fugiat qui elit ipsum consequat reprehenderit est commodo incididunt aute sint.</p>
+                        <p>Exercitation reprehenderit voluptate nulla do sunt consectetur ex dolore consectetur commodo deserunt labore. Nulla non laboris proident quis laborum deserunt non excepteur reprehenderit esse. Ex do proident proident deserunt ex mollit in dolor officia.</p>
+                        <p>Id ipsum laboris adipisicing quis Lorem veniam dolor pariatur velit. Nisi ullamco ad esse eu commodo aliquip proident dolor. Laborum elit officia ea quis Lorem et. Aute minim officia ad commodo ea.</p>
+                    </section>
+                    <section>
+                        <h3>Advantages</h3>
+                        <ul>
+                            <li>Declarative</li>
+                            <li>Efficient</li>
+                        </ul>
+                    </section>
+                </div>
+            );
+            root.render(appEle);
+        }
+
+        function onDocumentLoad(){
+            var btnRender = document.getElementById('btnRender');
+            btnRender.addEventListener('click', onBtnRenderClick)
+            root = ReactDOM.createRoot(document.getElementById('root'))
+        }
+        window.addEventListener('load', onDocumentLoad)
+    </script>
+</head>
+<body>
+    <!-- 
+        <div>
+        <span>Counter :</span>
+        <span id="spanCounter">[counter]</span>
+    </div> 
+-->
+    <button id="btnRender">Render</button>
+    <div id="root"></div>
+</body>
+</html>

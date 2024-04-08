@@ -28,6 +28,7 @@
         1. Initial Version
         2. Segregate NON-UI responsibilities from UI responsibilities
         3. View reacting to user actions
+        4. Model emitting change event for 'salary'
 
       -->
     <script>
@@ -40,6 +41,8 @@
             this.da = 0;
             this.tax = 0;
             this.salary = 0;
+
+            this.onSalaryChange = null;
             
             /* 
             this.calculate = function(){
@@ -53,10 +56,12 @@
             var gross = this.basic + this.hra + this.da,
                 net = gross * ((100 - this.tax) / 100);                
             this.salary = net;
+            if (typeof this.onSalaryChange === 'function')
+                this.onSalaryChange()
         }
 
 
-        // UI 
+        // UI (View)
         $(function(){ // function executed when the document is loaded
             // DO NOT add data to the 'window' object
 
@@ -88,13 +93,17 @@
                 $('#tdHra').text(model.hra);
                 $('#tdDa').text(model.da);
                 $('#tdTax').text(model.tax);
-                $('#tdSalary').text(model.salary);
+                
             });
+
+            model.onSalaryChange = function(){
+                $('#tdSalary').text(model.salary);
+            };
         });
     </script>
 </head>
 <body>
-    <h1>Salary Calculator - v3</h1>
+    <h1>Salary Calculator - v4</h1>
     <section>
         <div class="field">
             <label for="">Basic :</label>

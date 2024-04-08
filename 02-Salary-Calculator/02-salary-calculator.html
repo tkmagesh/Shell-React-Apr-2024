@@ -26,28 +26,58 @@
      -->
      <!-- 
         1. Initial Version
+        2. Segregate NON-UI responsibilities from UI responsibilities
 
       -->
     <script>
+        // Domain Model (representing a SalaryCalculator)
+        // State & Behavior of a Salary Calculator
+        function SalaryCalculator(){
+            // state
+            this.basic = 0;
+            this.hra = 0;
+            this.da = 0;
+            this.tax = 0;
+            this.salary = 0;
+
+            /* 
+            this.calculate = function(){
+                var gross = this.basic + this.hra + this.da,
+                    net = gross * ((100-this.tax)/100);
+                this.salary = net;
+            } 
+            */
+        }
+        SalaryCalculator.prototype.calculate = function () {
+            var gross = this.basic + this.hra + this.da,
+                net = gross * ((100 - this.tax) / 100);
+            this.salary = net;
+        }
+
+
+        // UI 
         $(function(){ // function executed when the document is loaded
+            var calculator = new SalaryCalculator();
+
             $('#btnCalculate').on('click', function(){
-                var basic = parseInt($('#txtBasic').val()),
-                    hra = parseInt($('#txtHra').val()),
-                    da = parseInt($('#txtDa').val()),
-                    tax = parseInt($('#rangeTax').val());
-                var gross = basic + hra + da,
-                    net = gross * ((100-tax)/100);
-                $('#tdBasic').text(basic);
-                $('#tdHra').text(hra);
-                $('#tdDa').text(da);
-                $('#tdTax').text(tax);
-                $('#tdSalary').text(net);
+                calculator.basic = parseInt($('#txtBasic').val());
+                calculator.hra = parseInt($('#txtHra').val());
+                calculator.da = parseInt($('#txtDa').val());
+                calculator.tax = parseInt($('#rangeTax').val());
+
+                calculator.calculate();
+
+                $('#tdBasic').text(calculator.basic);
+                $('#tdHra').text(calculator.hra);
+                $('#tdDa').text(calculator.da);
+                $('#tdTax').text(calculator.tax);
+                $('#tdSalary').text(calculator.salary);
             });
         });
     </script>
 </head>
 <body>
-    <h1>Salary Calculator</h1>
+    <h1>Salary Calculator - v2</h1>
     <section>
         <div class="field">
             <label for="">Basic :</label>

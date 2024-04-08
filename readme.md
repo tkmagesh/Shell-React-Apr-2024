@@ -24,3 +24,24 @@
 ## Repository
 - https://github.com/tkmagesh/shell-react-apr-2024
 
+## What is React?
+- Library for building **Rich Internet Applications**
+
+
+## Zen Coding Syntax
+- https://code.google.com/archive/p/zen-coding/
+```
+html:5
+div*3
+div#div-1
+div.highlight
+input:text
+input:check
+input:range[min="0" max="10" value="0"]
+div>span
+div+span
+div*3#div-$
+div{This is the content of a div}
+```
+## Salary Calculator
+- Salary = Basic + HRA + DA - Tax

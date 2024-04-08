@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Greeter</title>
+    </head>
+    <body>
+        <h1>Greeter</h1>
+        <hr>
+        <label for="">User Name :</label>
+        <input type="text" name="" id="txtUserName">
+        <button id="btnGreet">Greet</button>
+        <div id="message">[default Message]</div>
+        <script>
+            function onBtnGreetClick() {
+                var txtUserName = document.getElementById('txtUserName')
+                var userName = txtUserName.value;
+                var greetMsg = 'Hi ' + userName + ', Have a nice day!'
+                var divMessage = document.getElementById('message');
+                divMessage.innerText = greetMsg;
+            }
+            var btnGreet = document.getElementById('btnGreet')
+            btnGreet.addEventListener('click', onBtnGreetClick)
+        </script>
+    </body>
+</html>

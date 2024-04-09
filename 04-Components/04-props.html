@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Greeter</title>
+    <script src="babel.min.js"></script>
+    <script src="react.development.js"></script>
+    <script src="react-dom.development.js"></script>
+    <style>
+        .message{
+            font-size: 18pt;
+        }
+
+    </style>
+    <script type="text/babel">
+        function Greeter(props){
+            // console.log(props)
+            const {msgTemplate, x, y} = props;
+
+            const [greetMsg, setGreetMsg] = React.useState('dummy message');
+            const [userName, setUserName] = React.useState('');
+
+            const onBtnGreetClick = (evt) => {
+                const newGreetMsg = `Hi ${userName}, ${msgTemplate}`
+                setGreetMsg(newGreetMsg)
+            };
+
+            const onTxtUserNameInput = (evt) => {
+                setUserName(evt.target.value)
+            };
+
+            return (
+                <div>
+                    <h1>Greeter</h1>
+                    <hr/>
+                    <label htmlFor="txtUserName" >User Name :</label>
+                    <input type="text" name="" id="txtUserName" onInput={onTxtUserNameInput}></input>
+                    <span> [ {userName.length} ] </span>
+                    <button onClick={onBtnGreetClick}>Greet</button>
+                    <div className="message">{greetMsg}</div>
+                </div>
+            )
+        }
+        var root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(
+            <div>
+                <Greeter msgTemplate="Have a good day!" x={100} y={200}/>
+                <Greeter msgTemplate="Have a nice day!" x={100} y={200} />
+            </div>
+        )
+    </script>
+</head>
+<body>
+    <div id="root">
+        
+    </div>
+</body>
+</html>

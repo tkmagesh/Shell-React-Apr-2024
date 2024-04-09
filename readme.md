@@ -54,6 +54,23 @@ div{This is the content of a div}
 ### VDOM
 - Presentation
 
+### JSX
+- Every tag MUST have a corresponding close tag
+- Use 'htmlFor' inplace of 'for'
+- Use 'className' inplace of 'class'
+
 ### Component (View)
 - Encapsulation of Presentation + User Interaction Logic (handling user events) + State
 - Just a function (with the name starting with capital letter)
+
+### Hooks
+- Functions designed to handle side-effects
+- Functions whose name starts with 'use'
+- Hook functions can be used ONLY in a component function
+- Built in hooks
+    - useState
+        - used to maintain state across the component re-renderings
+    - useRef
+    - useReducer
+    - useEffect
+    - etc

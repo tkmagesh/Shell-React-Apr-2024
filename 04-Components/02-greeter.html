@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Greeter</title>
+    <script src="babel.min.js"></script>
+    <script src="react.development.js"></script>
+    <script src="react-dom.development.js"></script>
+    <style>
+        .message{
+            font-size: 18pt;
+        }
+
+    </style>
+    <script type="text/babel">
+        function Greeter(){
+            
+            /* 
+            const arr = React.useState('dummy message');
+            const greetMsg = arr[0];
+            const setGreetMsg = arr[1]; 
+            */
+           // the above using array destructuring
+           const [greetMsg, setGreetMsg] = React.useState('dummy message');
+
+            // let userName = '';
+            const [userName, setUserName] = React.useState('');
+
+            const onBtnGreetClick = (evt) => {
+                // console.log('greet button clicked')
+                // console.log('userName - ', userName)
+                const newGreetMsg = `Hi ${userName}, Have a nice day!`
+                setGreetMsg(newGreetMsg)
+
+            };
+
+            const onTxtUserNameInput = (evt) => {
+                // console.log('text input triggered - ', evt.target.value)
+                // userName = evt.target.value
+                setUserName(evt.target.value)
+            };
+
+            console.log('Greeter rendered!')
+            return (
+                <div>
+                    <h1>Greeter</h1>
+                    <hr/>
+                    <label htmlFor="txtUserName" >User Name :</label>
+                    <input type="text" name="" id="txtUserName" onInput={onTxtUserNameInput}></input>
+                    <span> [ {userName.length} ] </span>
+                    <button onClick={onBtnGreetClick}>Greet</button>
+                    <div className="message">{greetMsg}</div>
+                </div>
+            )
+        }
+        var root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<Greeter/>)
+    </script>
+</head>
+<body>
+    <div id="root">
+        
+    </div>
+</body>
+</html>

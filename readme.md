@@ -3,7 +3,7 @@
 ## Magesh Kuppan
 
 ## Chat
-- https://chat.olzhasar.com/r/edf55a39-98f1-4811-a291-32cba2b7481e
+- https://chat.olzhasar.com/r/fd415e4e-9185-4af3-96be-e4ffd3c29b17
 
 ## Schedule
 - Session - 1   : 1:30 hrs

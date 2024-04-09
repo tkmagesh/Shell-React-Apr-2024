@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>List</title>
+    <script src="babel.min.js"></script>
+    <script src="react.development.js"></script>
+    <script src="react-dom.development.js"></script>
+    <script type="text/babel">
+        const Products = () => {
+            const [newProductName, setNewProductName] = React.useState('')
+            const [productNames,setProductNames] = React.useState([]);
+
+            const onBtnAddNewClick = () => {
+                const newProductNames = [ ...productNames, newProductName ]
+                setProductNames(newProductNames)
+            };
+            
+            const onBtnRemoveClick = (idx) => {
+                const updatedProductNames = productNames.filter((productName, index) => idx !== index)
+                setProductNames(updatedProductNames)
+            };
+
+            const productItems = productNames.map((productName, idx) => {
+                return (
+                    <li key={idx}>
+                        <span>{productName}</span>
+                        <button onClick={ () => onBtnRemoveClick(idx) }> X </button>
+                    </li>
+                )
+            })
+            return (
+                <div>
+                    <Header data={productNames.length}/>
+                    <hr />
+                    <label>Product Name :</label>
+                    <input type="text" onInput = { evt => setNewProductName(evt.target.value)} />
+                    <button onClick={onBtnAddNewClick}>Add Product</button>
+                    <ul>
+                       {productItems}
+                    </ul>
+                    {/* { productNames.length == 0 && (<div>No Products to display!</div>)  } */}
+                    {productNames.length == 0 ? (<div>No Products to display!</div>) : null }
+                </div>
+            )
+        }
+
+        const Header = (props) => {
+            return (<h1>Products List! - [{props.data}]</h1>)
+        };
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<Products/>)
+    </script>
+</head>
+<body>
+    <div id="root">
+        
+    </div>
+</body>
+</html>

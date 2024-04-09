@@ -9,29 +9,38 @@
     <script src="react-dom.development.js"></script>
     <script type="text/babel">
         const Products = () => {
-            const productNames = [];
+            const [newProductName, setNewProductName] = React.useState('')
+            const [productNames,setProductNames] = React.useState([]);
+
+            const onBtnAddNewClick = () => {
+                const newProductNames = [ ...productNames, newProductName ]
+                setProductNames(newProductNames)
+            };
+            
+            const onBtnRemoveClick = (idx) => {
+                const updatedProductNames = productNames.filter((productName, index) => idx !== index)
+                setProductNames(updatedProductNames)
+            };
+
+            const productItems = productNames.map((productName, idx) => {
+                return (
+                    <li key={idx}>
+                        <span>{productName}</span>
+                        <button onClick={ () => onBtnRemoveClick(idx) }> X </button>
+                    </li>
+                )
+            })
             return (
                 <div>
                     <h1>Products</h1>
                     <hr />
                     <label>Product Name :</label>
-                    <input type="text" name="" id="" />
-                    <button>Add Product</button>
+                    <input type="text" onInput = { evt => setNewProductName(evt.target.value)} />
+                    <button onClick={onBtnAddNewClick}>Add Product</button>
                     <ul>
-                        <li>
-                            <span>Pen</span>
-                            <button> X </button>
-                        </li>
-                        <li>
-                            <span>Pencil</span>
-                            <button> X </button>
-                        </li>
-                        <li>
-                            <span>Marker</span>
-                            <button> X </button>
-                        </li>
+                       {productItems}
                     </ul>
-                    <div>No Products to display!</div>
+                    { productNames.length == 0 ? (<div>No Products to display!</div>) : null }
                 </div>
             )
         }

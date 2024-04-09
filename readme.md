@@ -49,3 +49,11 @@ div{This is the content of a div}
 ## Salary Calculator
 - Salary = Basic + HRA + DA - Tax
 
+## React
+
+### VDOM
+- Presentation
+
+### Component (View)
+- Encapsulation of Presentation + User Interaction Logic (handling user events) + State
+- Just a function (with the name starting with capital letter)

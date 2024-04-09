@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hello World</title>
+    <script src="babel.min.js"></script>
+    <script src="react.development.js"></script>
+    <script src="react-dom.development.js"></script>
+    <script type="text/babel">
+        function HelloWorld(){
+
+            // return the JSX that need to rendered when this component is rendered
+            // return React.createElement('h1', null, 'Hello World!')
+            return <h1>Hello World!</h1>
+        }
+        var root = ReactDOM.createRoot(document.getElementById('root'));
+        // root.render(React.createElement(HelloWorld))
+        root.render(<HelloWorld/>)
+    </script>
+</head>
+<body>
+    <div id="root">
+
+    </div>
+</body>
+</html>

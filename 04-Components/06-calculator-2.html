@@ -4,22 +4,60 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Calculator</title>
+    <script src="babel.min.js"></script>
+    <script src="react.development.js"></script>
+    <script src="react-dom.development.js"></script>
+    <script type="text/babel">
+        function Calculator(){
+            const [n1, setN1] = React.useState(0);
+            const [n2, setN2] = React.useState(0);
+            const [selectedOperation, setSelectedOperation] = React.useState('');
+            const [result, setResult] = React.useState(0);
+            const onBtnCalculateClick = () => {
+                switch (selectedOperation) {
+                    case 'add':
+                        setResult(n1 + n2)
+                        break;
+                    case 'subtract':
+                        setResult(n1 - n2)
+                        break;
+                    case 'multiply':
+                        setResult(n1 * n2)
+                        break;
+                    case 'divide':
+                        setResult(n1 / n2)
+                        break;
+                    default:
+                        setResult(0)
+                        break;
+                }
+            }
+            return (
+                <div>
+                    <h1>Calculator</h1>
+                    <hr />
+                    <input type="number" onInput={ evt => setN1(parseInt(evt.target.value))} />
+                    <select onChange={ evt => setSelectedOperation(evt.target.value)} >
+                        <option value="">--Select--</option>
+                        <option value="add">Add</option>
+                        <option value="subtract">Subtract</option>
+                        <option value="multiply">Multiply</option>
+                        <option value="divide">Divide</option>
+                    </select>
+                    <input type="number" onInput={evt => setN2(parseInt(evt.target.value))} />
+                    <button onClick={onBtnCalculateClick}>Calculate</button>
+                    <div className="result">{result}</div>
+                </div>
+            )
+        }
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<Calculator/>)
+    </script>
 </head>
 <body>
     <div id="root">
-        <h1>Calculator</h1>
-        <hr>
-        <input type="number" name="" id="">
-        <select name="" id="">
-            <option value="">--Select--</option>
-            <option value="add">Add</option>
-            <option value="subtract">Subtract</option>
-            <option value="multiply">Multiply</option>
-            <option value="divide">Divide</option>
-        </select>
-        <input type="number" name="" id="">
-        <button>Calculate</button>
-        <div class="result">[result]</div>
+        
     </div>
 </body>
 </html>

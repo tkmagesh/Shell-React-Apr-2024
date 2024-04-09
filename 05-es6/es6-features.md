@@ -14,7 +14,7 @@ for(let i = 0; i < 10; i++){
 ```JS
 const pi = 3.14
 ```
-### Array Destructuring
+## Array Destructuring
 ```js
 let nos = [10,20]
 let [x, y] = nos
@@ -25,7 +25,7 @@ let x = 10, y = 20
 // swap x & y
 [x,y] = [y,x]
 ```
-### Rest Operator (Array)
+## Rest Operator (Array)
 ```js
 let nos = [10,20,30,40,50]
 let [x,y, ...z] = nos
@@ -35,7 +35,7 @@ let [x,y, ...z] = nos
 let nos = [10,20,30,40,50]
 let newNos = [...nos, 100, 200, 300]
 ```
-### Rest & Spread Operator in function arguments
+## Rest & Spread Operator in function arguments
 ```js
 function sum(...nos){
     let result = 0;
@@ -51,3 +51,42 @@ console.log(sum(10,20,30,40,50))
 let values = [3,1,4,2,5]
 console.log(sum(...values))
 ```
+
+## Destructuring (Objects)
+```js
+let product = {
+    id : 100,
+    name : 'Pen',
+    cost : 10,
+    category : 'stationary'
+}
+
+let { id, category } = product
+
+// when the variable names are different from the attribute names
+let { id:x, category:y } = product
+
+```
+## Rest Operator (Objects)
+```js
+let product = {
+    id : 100,
+    name : 'Pen',
+    cost : 10,
+    category : 'stationary'
+}
+
+let { id, ...z } = product
+```
+## Spread Operator (Objects)
+```js
+let product = {
+    id : 100,
+    name : 'Pen',
+    cost : 10,
+    category : 'stationary'
+}
+
+let productWithUnits = { ...product, units : 100 }
+```
+

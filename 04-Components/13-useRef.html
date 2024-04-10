@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Greeter</title>
+    <script src="babel.min.js"></script>
+    <script src="react.development.js"></script>
+    <script src="react-dom.development.js"></script>
+    <style>
+        .message{
+            font-size: 18pt;
+        }
+
+    </style>
+    <script type="text/babel">
+        function Greeter(){
+           // the above using array destructuring
+           const [greetMsg, setGreetMsg] = React.useState('dummy message');
+
+           const txtUserNameRef = React.useRef()
+
+            const onBtnGreetClick = (evt) => {
+                const userName = txtUserNameRef.current.value;
+                const newGreetMsg = `Hi ${userName}, Have a nice day!`
+                setGreetMsg(newGreetMsg)
+
+            };
+
+          
+            return (
+                <div>
+                    <h1>Greeter</h1>
+                    <hr/>
+                    <label htmlFor="txtUserName" >User Name :</label>
+                    <input type="text" ref={txtUserNameRef} ></input>
+                    <button onClick={onBtnGreetClick}>Greet</button>
+                    <div className="message">{greetMsg}</div>
+                </div>
+            )
+        }
+        var root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<Greeter/>)
+    </script>
+</head>
+<body>
+    <div id="root">
+        
+    </div>
+</body>
+</html>

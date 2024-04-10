@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bug Tracker</title>
+    <style>
+        body{
+            margin-left: 50px;
+        }
+        section{
+            margin-bottom: 10px;
+        }
+        .closed{
+            color : red;
+            text-decoration: line-through;
+            font-style: italic;
+            font-weight: bold;
+        }
+        .bugname, .stats {
+            font-size: 18pt;
+        }
+        .bugname {
+            cursor: pointer;
+        }
+        .datetime {
+            font-style: italic;
+        }
+        ul {
+            width: 500px;
+            list-style: none;
+            -webkit-padding-start: 0%;
+        }
+        li {
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            border: 1px solid gray;
+            background-color: #e7e7e7;
+        }
+    </style>
+    <!-- 
+        Use Cases:
+        1. Add new bugs
+        2. List the bugs
+        3. Toggle the 'closed' status of any bug
+        4. Remove any bug
+        5. Remove all 'closed' bugs
+        6. Display stats ( # closed bugs / total # of bugs)
+        7. Persist the bugs in the server
+        8. Add support for 'Project' (add & list)
+        9. Establish the relationship between 'bug' & 'project'
+    -->
+  </head>
+  <body>
+    <h1>Bug Tracker</h1>
+    <hr />
+    <!-- BugTracker Component -->
+    <div>
+      <section class="stats">
+        <span class="closed">1</span>
+        <span> / </span>
+        <span>2</span>
+      </section>
+      <section class="edit">
+        <label for="">Bug Name :</label>
+        <input type="text" name="" id="" />
+        <button>Add New</button>
+      </section>
+      <section class="list">
+        <ul>
+          <li>
+            <span class="bugname">[This is bug -1]</span>
+            <div class="datetime">[created at]</div>
+            <button>Remove</button>
+          </li>
+          <li>
+            <span class="bugname closed">[This is bug -2]</span>
+            <div class="datetime">[created at]</div>
+            <button>Remove</button>
+          </li>
+        </ul>
+        <button>Remove Closed</button>
+      </section>
+    </div>
+  </body>
+</html>

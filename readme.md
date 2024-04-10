@@ -24,6 +24,10 @@
 - Node.js (LTS - v20.12.1)
 - Visual Studio Code (or any editor)
 
+## Reference
+- Advanced JS (https://bit.ly/javascript-training-videos)
+- React (https://bit.ly/react-videos)
+
 ## Repository
 - https://github.com/tkmagesh/shell-react-apr-2024
 

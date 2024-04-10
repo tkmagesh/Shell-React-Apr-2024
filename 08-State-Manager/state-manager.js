@@ -2,7 +2,8 @@
 let StateManager = (function(){
     let _currentState = undefined,
         _subscriptions = [],
-        _reducer = undefined
+        _reducer = undefined,
+        _init_action = { type : '@@INIT-ACTION'};
 
     function getState(){
         return _currentState;
@@ -27,7 +28,11 @@ let StateManager = (function(){
     function createStore(reducer){
         if (typeof reducer !== 'function')
             throw new Error('cannot create a store without a reducer')
-        _reducer = reducer
+        _reducer = reducer;
+        
+        // to initialize the currentState with a default valid state before any action is dispatched
+        _currentState = _reducer(undefined, _init_action)
+        
         let store = { getState, subscribe, dispatch}
         return store;
     }

@@ -51,37 +51,140 @@
         8. Add support for 'Project' (add & list)
         9. Establish the relationship between 'bug' & 'project'
     -->
+    <script src="babel.min.js"></script>
+    <script src="react.development.js"></script>
+    <script src="react-dom.development.js"></script>
+    <script type="text/babel">
+      class Bug {
+          id = 0;
+          name = ''
+          isClosed = false;
+          createdAt = new Date()
+
+          constructor(id, name){
+              this.id = id;
+              this.name = name;
+          }
+
+          toggle(){
+              this.isClosed = !this.isClosed;
+          }
+      }
+
+      class EventEmitter {
+          _subscriptions = [];
+
+          subscribe(listenerFn){
+              this._subscriptions.push(listenerFn)
+          }
+
+          triggerChange(){
+              this._subscriptions.forEach(listenerFn => listenerFn())
+          }
+      }
+
+      class Bugs extends EventEmitter {
+          #list = []
+
+          get list(){
+            return [...this.#list]
+          }
+
+          addNew(bugName){
+              const newBugId = this.#list.reduce((prevValue, bug) => prevValue > bug.id ? prevValue : bug.id, 0) + 1
+              const newBug = new Bug(newBugId, bugName)
+              this.#list.push(newBug)
+              this.triggerChange()
+          }
+
+          remove(bugToRemove){
+              this.#list = this.#list.filter(bug => bug.id !== bugToRemove.id)
+              this.triggerChange()
+          }
+
+          removeClosed(){
+              this.#list = this.#list.filter(bug => !bug.isClosed)
+              this.triggerChange()
+          }
+
+          toggle(bugToToggle){
+            bugToToggle.toggle();
+            this.triggerChange();
+          }
+
+      }
+
+      function BugList({bugsList, bugs}){
+        const bugItems = bugsList.map(bug => (
+          <BugItem key={bug.id} bug={bug} bugs={bugs}></BugItem>
+        ))
+        return (
+          <section className="list">
+              <ul>
+                {bugItems}                
+              </ul>
+              <button>Remove Closed</button>
+            </section>
+        )
+      }
+
+      function BugItem({bugs, bug}){
+        return (
+          <li key={bug.id}>
+            <span className="bugname" onClick={() => bugs.toggle(bug)}>{bug.name}</span>
+            <span>[{bug.isClosed.toString()}]</span>
+            <div className="datetime">[{bug.createdAt.toString()}]</div>
+            <button onClick={() => bugs.remove(bug)}>Remove</button>
+          </li>
+        )
+      }
+      function BugTracker({bugs}){
+        const [newBugName, setNewBugName] = React.useState('')
+
+        const bugsList = bugs.list;
+
+        const onBtnAddBugClick = () => {
+          bugs.addNew(newBugName);
+        };
+
+        
+        return (
+          <div>
+            <section className="stats">
+              <span className="closed">1</span>
+              <span> / </span>
+              <span>{bugsList.length}</span>
+            </section>
+            <section className="edit">
+              <label htmlFor="">Bug Name :</label>
+              <input type="text" onInput={ evt => setNewBugName(evt.target.value)}  />
+              <button onClick={onBtnAddBugClick}>Add New</button>
+            </section>
+            <BugList bugsList={bugsList} bugs={bugs}/>
+          </div>
+        )
+      }
+
+      (() => {
+        const root = ReactDOM.createRoot(document.getElementById('root'))
+
+        const bugs = new Bugs()
+        
+        function renderBugTracker(){
+          window['bugsList'] = bugs.list;
+          root.render(<BugTracker bugs={bugs}/>)
+        }
+        renderBugTracker()
+        bugs.subscribe(renderBugTracker);
+      })()
+    </script>
   </head>
   <body>
     <h1>Bug Tracker</h1>
     <hr />
     <!-- BugTracker Component -->
-    <div>
-      <section class="stats">
-        <span class="closed">1</span>
-        <span> / </span>
-        <span>2</span>
-      </section>
-      <section class="edit">
-        <label for="">Bug Name :</label>
-        <input type="text" name="" id="" />
-        <button>Add New</button>
-      </section>
-      <section class="list">
-        <ul>
-          <li>
-            <span class="bugname">[This is bug -1]</span>
-            <div class="datetime">[created at]</div>
-            <button>Remove</button>
-          </li>
-          <li>
-            <span class="bugname closed">[This is bug -2]</span>
-            <div class="datetime">[created at]</div>
-            <button>Remove</button>
-          </li>
-        </ul>
-        <button>Remove Closed</button>
-      </section>
+    <div id="root">
+
     </div>
   </body>
 </html>

@@ -74,3 +74,6 @@ div{This is the content of a div}
     - useReducer
     - useEffect
     - etc
+
+## State Manager
+![image](./images/state-manager.png)

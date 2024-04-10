@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>State Manager - Testing</title>
-    <script src="state-manager.js"></script>
+    
     <script>
         /* 
         let incrementAction = { type : 'INCREMENT' }, 
@@ -27,18 +27,55 @@
     <script src="babel.min.js"></script>
     <script src="react.development.js"></script>
     <script src="react-dom.development.js"></script>
-    <script type="text/babel">
+    <script src="state-manager.js"></script>
+    <!-- <script src="redux.js"></script> -->
 
+    <script type="text/babel">
+        function spinnerReducer(currentState = 0, action){
+            if (action.type === 'INCREMENT') return currentState + 1;
+            if (action.type === 'DECREMENT') return currentState - 1;
+            return currentState;
+        }
+
+        function Spinner({store}){
+            let incrementAction = { type : 'INCREMENT' }, 
+                decrementAction = { type : 'DECREMENT' };
+
+            const value = store.getState()
+
+            const onDecrementClick = () => {
+                store.dispatch(decrementAction);
+            };
+
+            const onIncrementClick = () => {
+                store.dispatch(incrementAction);
+            };
+
+            return (
+                <>
+                    <h1>Spinner</h1>
+                    <hr/>
+                    <button onClick={onDecrementClick}>Decrement</button>
+                    <span>[ {value} ]</span>
+                    <button onClick={onIncrementClick}>Increment</button>
+                </>
+            )
+        }
+
+        let store = StateManager.createStore(spinnerReducer);
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        function renderSpinner(){
+            root.render(<Spinner store={store}/>)
+        }
+        renderSpinner();
+        store.subscribe(renderSpinner);
+        
     </script>
 </head>
 <body>
     <div id="root">
         <!-- conver the following into a React component & make it work with the state manager -->
-        <h1>Spinner</h1>
-        <hr>
-        <button>Decrement</button>
-        <span>[ value ]</span>
-        <button>Increment</button>
+        
     </div>
 </body>
 </html>

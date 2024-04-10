@@ -24,8 +24,21 @@
         store.subscribe(() => console.log('current state : ', store.getState()))
         */
     </script>
+    <script src="babel.min.js"></script>
+    <script src="react.development.js"></script>
+    <script src="react-dom.development.js"></script>
+    <script type="text/babel">
+
+    </script>
 </head>
 <body>
-    
+    <div id="root">
+        <!-- conver the following into a React component & make it work with the state manager -->
+        <h1>Spinner</h1>
+        <hr>
+        <button>Decrement</button>
+        <span>[ value ]</span>
+        <button>Increment</button>
+    </div>
 </body>
 </html>

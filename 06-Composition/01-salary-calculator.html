@@ -24,6 +24,12 @@
         body {
             margin-left: 50px;
         }
+        .error {
+            color : red;
+        }
+        div.field > input {
+            border-color : gray;
+        }
     </style>
     <script type="text/babel">
         function SalaryCalculatorModel() {
@@ -73,67 +79,101 @@
             }
         }
 
-        function SalaryCalculatorInput({labelText, value, onValueChange}){
+        function FieldInput({type, value, onValueChange, ...restProps}){
+            const [message, setMessage] = React.useState('')
+            const onFieldChange = (evt) => {
+                const data = parseInt(evt.target.value);
+                if (isNaN(data)) {
+                    setMessage('Invalid data')
+                    return
+                }
+                setMessage('')
+                onValueChange(data)
+            }
+            return (
+                <>
+                    {/* <React.Fragment> */}
+                    <input type={type} defaultValue={value} {...restProps} onInput={onFieldChange} />
+                    <div className="error">{message}</div>
+                    {/* </React.Fragment> */}
+                </>
+            )
+        }
+
+        function SalaryCalculatorInput({labelText, value, type="number", onValueChange, ...restProps}){
             return (
                 <div className="field">
                     <label htmlFor="">{labelText}</label>
-                    <input type="number" value={value} onInput={evt => onValueChange(parseInt(evt.target.value))} />
+                    {/* <FieldInput type={type} value={value} onValueChange={onValueChange} {...restProps} /> */}
+                    <FieldInput {...{type, value, onValueChange, ...restProps}} />
+                </div>
+            )
+        }
+
+        function SalaryCalculatorResult({basic, hra, da, tax, salary}){
+            return(
+                <div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Basic</th>
+                                <th>HRA</th>
+                                <th>DA</th>
+                                <th>Tax</th>
+                                <th>Salary</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td id="tdBasic">{basic}</td>
+                                <td id="tdHra">{hra}</td>
+                                <td id="tdDa">{da}</td>
+                                <td id="tdTax">{tax}</td>
+                                <td id="tdSalary">{salary}</td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             )
         }
         function SalaryCalculator({model}){
-            const { basic, hra, da, tax, salary } = model.toJSON()
+            const data = model.toJSON()
+            const { basic, hra, da, tax, salary } = data
             return (
                 <div>
                     <h1>Salary Calculator</h1>
                     <section>
                         <SalaryCalculatorInput 
-                            labelText="Basic :" 
+                            labelText="Basic :"
+                            value={basic} 
                             onValueChange={value => model.set('basic', value)}
                         />
                         <SalaryCalculatorInput 
                             labelText="HRA :" 
+                            value={hra}
                             onValueChange={value => model.set('hra', value)} 
                         />
                         <SalaryCalculatorInput 
-                            labelText="DA :" 
+                            labelText="DA :"
+                            value={da} 
                             onValueChange={value => model.set('da', value)} 
+                        />
+                         <SalaryCalculatorInput
+                            labelText="Tax :"
+                            onValueChange={value => model.set('tax', value)}
+                            type="range" min="0" max="30" value={tax}
                         />
                        
                         <div className="field">
-                            <label htmlFor="">Tax :</label>
-                            <input type="range" min="0" max="30" value={tax} onInput={evt => model.set('tax', parseInt(evt.target.value))} />
-                        </div>
-
-                        <div className="field">
                             <button id="btnCalculate" onClick={() => model.calculate()}>Calculate</button>
                         </div>
-                        <div>
-                            <table>
-                                <thead>
-                                    <tr>
-                                        <th>Basic</th>
-                                        <th>HRA</th>
-                                        <th>DA</th>
-                                        <th>Tax</th>
-                                        <th>Salary</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td id="tdBasic">{basic}</td>
-                                        <td id="tdHra">{hra}</td>
-                                        <td id="tdDa">{da}</td>
-                                        <td id="tdTax">{tax}</td>
-                                        <td id="tdSalary">{salary}</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
+                        <SalaryCalculatorResult {...data}/>
                     </section>
                 </div>
             )
         }
+
+        // Immediately Invoked Function Expression
         (function(){
             const model = new SalaryCalculatorModel()
             const root = ReactDOM.createRoot(document.getElementById('root'));

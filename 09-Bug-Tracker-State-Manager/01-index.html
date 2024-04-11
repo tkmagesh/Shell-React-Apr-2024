@@ -57,23 +57,42 @@
     <script src="state-manager.js"></script>
     <script type="text/babel">
         // create actions
-        // create reducer
 
-        let initialState = [
-            { id : 1, name : 'Bug - 1', isClosed : false, createdAt : new Date()},
-            { id : 2, name : 'Bug - 2', isClosed : true, createdAt : new Date()},
-            { id : 3, name : 'Bug - 3', isClosed : false, createdAt : new Date()},
-        ];
+        // TO BE FIXEDS
+        let maxBugId = 0;
+
+        const bugActionCreators = {
+            createNew(bugName){
+                const newBug = {
+                    id : ++maxBugId,
+                    name: bugName,
+                    isClosed : false,
+                    createdAt : new Date()
+                }
+                const createBugAction = { type : 'BUGS_ADD', payload : newBug };
+                return createBugAction;
+            }
+        }
+        // create reducer (should be responsible ONLY for deciding what should be next state)
+
+        let initialState = [];
         
         function bugsReducer(currentState = initialState, action){
-            return currentState;
+            switch (action.type) {
+                case 'BUGS_ADD':
+                    // create new state and return
+                    return [...currentState, action.payload];
+                default:
+                    return currentState;
+            }
+            
         }
 
-        function BugTracker({bugs}){
+        function BugTracker({bugs, createNew}){
             const [newBugName, setNewBugName] = React.useState('')
 
             const onBtnAddBugClick = () => {
-            
+                createNew(newBugName);
             };
 
             const bugItems = bugs.map(bug => (
@@ -116,16 +135,17 @@
         const root = ReactDOM.createRoot(document.getElementById('root'))
         
         // create the store
-        const store = StateManager.createStore(bugsReducer);
+        window['store'] = StateManager.createStore(bugsReducer);
 
         // create the action dispatchers
-                
+        const bugActionDispatchers = StateManager.bindActionCreators(bugActionCreators, store.dispatch);
+
         function renderBugTracker(){
             // extract the state from the store
             const bugs = store.getState();
 
             // pass the state & action dispatchers to the component
-            root.render(<BugTracker bugs={bugs}/>)
+            root.render(<BugTracker bugs={bugs} {...bugActionDispatchers}/>)
         }
         renderBugTracker()
         store.subscribe(renderBugTracker);

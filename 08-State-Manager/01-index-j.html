@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>State Manager - Testing</title>
+    
+    
+       
+    <script src="babel.min.js"></script>
+    <script src="react.development.js"></script>
+    <script src="react-dom.development.js"></script>
+    <script src="state-manager.js"></script>
+    <!-- 
+        1. initial version
+        2. payload
+        3. remove the dependency on the store from the component (by passing the store state & dispatch as props to the component)
+        4. move the action creation logic away from the component (action creators)
+        5. introducing 'action dispatchers' (responsible for getting the action from 'action creators' and 'dispatching' them)
+        6. pass the 'action dispatchers' as functions instead of one object
+        7. Use 'action creators' & 'action dispatchers' with payload
+        8. generalize the logic for creating action dispatchers
+        9. make sure the generic 'bindActionCreators' function work with payloads as well
+        10. refactor 'bindActionCreators' to state-manager.js
+     -->
+
+    <script type="text/babel">
+        function spinnerReducer(currentState = 0, action){
+            if (action.type === 'INCREMENT') return currentState + action.payload;
+            if (action.type === 'DECREMENT') return currentState - action.payload;
+            return currentState;
+        }
+
+        const spinnerActionCreators = {
+            increment(delta){
+                let action = { type : 'INCREMENT', payload : delta };
+                return action;
+            },
+            decrement(delta){
+                let action = { type : 'DECREMENT', payload : delta };
+                return action
+            }
+        }
+
+        
+
+        function Spinner({value, increment, decrement}){
+            const [delta, setDelta] = React.useState(0)
+            return (
+                <>
+                    <h1>Spinner</h1>
+                    <hr/>
+                    <label>Delta : </label>
+                    <input type="number" value={delta} onInput={ evt => setDelta(parseInt(evt.target.value))} />
+                    <br/>
+                    <button onClick={() => decrement(delta)}>Decrement</button>
+                    <span>[ {value} ]</span>
+                    <button onClick={() => increment(delta)}>Increment</button>
+                </>
+            )
+        }
+
+        let store = StateManager.createStore(spinnerReducer);
+        const spinnerActionDispatchers = StateManager.bindActionCreators(spinnerActionCreators, store.dispatch)
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        function renderSpinner(){
+            const value = store.getState()
+            root.render(<Spinner value={value} {...spinnerActionDispatchers}/>)
+        }
+        renderSpinner();
+        store.subscribe(renderSpinner);
+        
+    </script>
+</head>
+<body>
+    <div id="root">
+        <!-- conver the following into a React component & make it work with the state manager -->
+        
+    </div>
+</body>
+</html>

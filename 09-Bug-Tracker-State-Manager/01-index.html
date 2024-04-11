@@ -108,17 +108,29 @@
             
         }
 
-        function BugTracker({bugs, createNew, toggle, remove, removeClosed}){
+        const BugStats = ({count, closedCount}) => {
+            return (
+                <section className="stats">
+                    <span className="closed">{closedCount}</span>
+                    <span> / </span>
+                    <span>{count}</span>
+                </section>
+            )
+        }
+
+        const BugEdit = ({createNew}) => {
             const [newBugName, setNewBugName] = React.useState('')
+            return (
+                <section className="edit">
+                    <label htmlFor="">Bug Name :</label>
+                    <input type="text" onInput={ evt => setNewBugName(evt.target.value)}  />
+                    <button onClick={() => createNew(newBugName)}>Add New</button>
+                </section>
+            )
+        }
 
-            const onBtnAddBugClick = () => {
-                createNew(newBugName);
-            };
-
-            const closedCount = bugs.reduce((prevResult, bug) => bug.isClosed ? prevResult + 1 : prevResult, 0);
-
-            const bugItems = bugs.map(bug => (
-                // BugItem
+        const BugItem = ({bug, toggle, remove}) => {
+            return (
                 <li key={bug.id}>
                     <span 
                         className={"bugname " + (bug.isClosed ? 'closed' : '')} 
@@ -129,30 +141,35 @@
                     <div className="datetime">[{bug.createdAt.toString()}]</div>
                     <button onClick={() => remove(bug)}>Remove</button>
                 </li>
+            )
+        }
+
+        const BugList = ({bugs, toggle, remove, removeClosed}) => {
+            const bugItems = bugs.map(bug => (
+               <BugItem key={bug.id} bug={bug} {...{toggle, remove}} />
             ));
-            
             return (
-            <div>
-                {/* BugStats */}
-                <section className="stats">
-                    <span className="closed">{closedCount}</span>
-                    <span> / </span>
-                    <span>{bugs.length}</span>
-                </section>
-                {/* BugEdit */}
-                <section className="edit">
-                    <label htmlFor="">Bug Name :</label>
-                    <input type="text" onInput={ evt => setNewBugName(evt.target.value)}  />
-                    <button onClick={onBtnAddBugClick}>Add New</button>
-                </section>
-                {/* BugList */}
                 <section className="list">
                     <ul>
                         {bugItems}                
                     </ul>
                     <button onClick={() => removeClosed(bugs)}>Remove Closed</button>
                 </section>
-            </div>
+            )
+        }
+        function BugTracker({bugs, createNew, toggle, remove, removeClosed}){
+            
+            const closedCount = bugs.reduce((prevResult, bug) => bug.isClosed ? prevResult + 1 : prevResult, 0);
+
+            return (
+                <div>
+                    {/* BugStats */}
+                    <BugStats count={bugs.length} closedCount={closedCount}/>
+                    {/* BugEdit */}
+                    <BugEdit createNew={createNew}/>
+                    {/* BugList */}
+                    <BugList {...{bugs, toggle, remove, removeClosed}}/>
+                </div>
             )
         }
 

@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bug Tracker</title>
+    <style>
+        body{
+            margin-left: 50px;
+        }
+        section{
+            margin-bottom: 10px;
+        }
+        .closed{
+            color : red;
+            text-decoration: line-through;
+            font-style: italic;
+            font-weight: bold;
+        }
+        .bugname, .stats {
+            font-size: 18pt;
+        }
+        .bugname {
+            cursor: pointer;
+        }
+        .datetime {
+            font-style: italic;
+        }
+        ul {
+            width: 500px;
+            list-style: none;
+            -webkit-padding-start: 0%;
+        }
+        li {
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            border: 1px solid gray;
+            background-color: #e7e7e7;
+        }
+    </style>
+    <!-- 
+        Use Cases:
+        1. Add new bugs
+        2. List the bugs
+        3. Toggle the 'closed' status of any bug
+        4. Remove any bug
+        5. Remove all 'closed' bugs
+        6. Display stats ( # closed bugs / total # of bugs)
+        7. Persist the bugs in the server
+        8. Add support for 'Project' (add & list)
+        9. Establish the relationship between 'bug' & 'project'
+    -->
+    <script src="babel.min.js"></script>
+    <script src="react.development.js"></script>
+    <script src="react-dom.development.js"></script>
+    <script src="state-manager.js"></script>
+    <script type="text/babel">
+        // create actions
+        // create reducer
+
+        let initialState = [
+            { id : 1, name : 'Bug - 1', isClosed : false, createdAt : new Date()},
+            { id : 2, name : 'Bug - 2', isClosed : true, createdAt : new Date()},
+            { id : 3, name : 'Bug - 3', isClosed : false, createdAt : new Date()},
+        ];
+        
+        function bugsReducer(currentState = initialState, action){
+            return currentState;
+        }
+
+        function BugTracker({bugs}){
+            const [newBugName, setNewBugName] = React.useState('')
+
+            const onBtnAddBugClick = () => {
+            
+            };
+
+            const bugItems = bugs.map(bug => (
+                <li key={bug.id}>
+                    <span 
+                        className={"bugname " + (bug.isClosed ? 'closed' : '')} 
+                        onClick={() => bugs.toggle(bug)}
+                    >
+                        {bug.name}
+                    </span>
+                    <div className="datetime">[{bug.createdAt.toString()}]</div>
+                    <button onClick={() => bugs.remove(bug)}>Remove</button>
+                </li>
+            ));
+            
+            return (
+            <div>
+                <section className="stats">
+                    <span className="closed">1</span>
+                    <span> / </span>
+                    <span>{bugs.length}</span>
+                </section>
+                <section className="edit">
+                    <label htmlFor="">Bug Name :</label>
+                    <input type="text" onInput={ evt => setNewBugName(evt.target.value)}  />
+                    <button onClick={onBtnAddBugClick}>Add New</button>
+                </section>
+                <section className="list">
+                    <ul>
+                        {bugItems}                
+                    </ul>
+                    <button>Remove Closed</button>
+                </section>
+            </div>
+            )
+        }
+
+      // setup  
+      (() => {
+        const root = ReactDOM.createRoot(document.getElementById('root'))
+        
+        // create the store
+        const store = StateManager.createStore(bugsReducer);
+
+        // create the action dispatchers
+                
+        function renderBugTracker(){
+            // extract the state from the store
+            const bugs = store.getState();
+
+            // pass the state & action dispatchers to the component
+            root.render(<BugTracker bugs={bugs}/>)
+        }
+        renderBugTracker()
+        store.subscribe(renderBugTracker);
+      })()
+    </script>
+  </head>
+  <body>
+    <h1>Bug Tracker</h1>
+    <hr />
+    <!-- BugTracker Component -->
+    <div id="root">
+
+    </div>
+  </body>
+</html>

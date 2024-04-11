@@ -71,6 +71,11 @@
                 }
                 const createBugAction = { type : 'BUGS_ADD', payload : newBug };
                 return createBugAction;
+            },
+            toggle(bugToToggle){
+                const toggledBug = {...bugToToggle, isClosed : !bugToToggle.isClosed};
+                const replaceBugAction = { type : 'BUGS_REPLACE', payload : toggledBug};
+                return replaceBugAction;
             }
         }
         // create reducer (should be responsible ONLY for deciding what should be next state)
@@ -82,13 +87,15 @@
                 case 'BUGS_ADD':
                     // create new state and return
                     return [...currentState, action.payload];
+                case 'BUGS_REPLACE':
+                    return currentState.map(bug => bug.id === action.payload.id ? action.payload : bug )
                 default:
                     return currentState;
             }
             
         }
 
-        function BugTracker({bugs, createNew}){
+        function BugTracker({bugs, createNew, toggle}){
             const [newBugName, setNewBugName] = React.useState('')
 
             const onBtnAddBugClick = () => {
@@ -99,7 +106,7 @@
                 <li key={bug.id}>
                     <span 
                         className={"bugname " + (bug.isClosed ? 'closed' : '')} 
-                        onClick={() => bugs.toggle(bug)}
+                        onClick={() => toggle(bug)}
                     >
                         {bug.name}
                     </span>

@@ -81,3 +81,31 @@ div{This is the content of a div}
 
 ## State Manager
 ![image](./images/state-manager.png)
+
+## ES6 Modules
+- Everything defined in a file is considered as PRIVATE by default
+- Any public entity has to be explicitly 'EXPORT'ed
+- Any public entity from a different has to be explicitly 'IMPORT'ed in order to be used
+
+## Bug Tracker App Setup ##
+```
+/bugs (app module)
+    /actions
+        - createNew.js
+        - toggle.js
+        - remove.js
+        - removeClosed.js
+        - index.js
+    /views (presentation components)
+        - BugStats.jsx
+        - BugEdit.jsx
+        - BugList.jsx
+        - BugItem.jsx
+    /reducers
+        - bugsReducer.js
+    - index.js (Container component)
+/store
+    - index.js
+/index.js
+
+```

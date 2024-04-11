@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculator</title>
+    <style>
+        .result{
+            font-size: 16pt;
+        }
+    </style>
+    <script src="babel.min.js"></script>
+    <script src="react.development.js"></script>
+    <script src="react-dom.development.js"></script>
+    <script src="state-manager.js"></script>
+    <script type="text/babel">
+
+    function calculatorReducer(currentState = 0, action){
+        switch (action.type) {
+            case "ADD":
+                return action.payload.n1 + action.payload.n2
+                break;
+            case "SUBTRACT":
+                return action.payload.n1 - action.payload.n2
+                break;
+            case "MULTIPLY":
+                return action.payload.n1 * action.payload.n2
+                break;
+            case "DIVIDE":
+                return action.payload.n1 / action.payload.n2
+                break;
+            default:
+                return currentState
+                break;
+        }
+    }
+    function Calculator({store}) {
+        const [n1, setN1] = React.useState(0),
+            [n2, setN2] = React.useState(0),
+            [selectedOperation, setSelectedOperation] = React.useState('')
+        
+        const operationActionTypeMap = {
+            '+' : 'ADD',
+            '-' : 'SUBTRACT',
+            '*' : 'MULTIPLY',
+            '/' : 'DIVIDE'
+        };
+
+        const result = store.getState();
+
+        const onBtnCalculateClick = () => {
+            const action = { type : operationActionTypeMap[selectedOperation], payload : {n1, n2}}
+            store.dispatch(action)
+        }
+        
+        return (
+            <div>
+                <h1>Calculator</h1>
+                <hr />
+                <input type="number" onInput={ evt => setN1(parseInt(evt.target.value))} />
+                <select onChange={ evt => setSelectedOperation(evt.target.value)} >
+                    <option value="">--Select--</option>
+                    <option value="+">Add</option>
+                    <option value="-">Subtract</option>
+                    <option value="*">Multiply</option>
+                    <option value="/">Divide</option>
+                </select>
+                <input type="number" onInput={evt => setN2(parseInt(evt.target.value))} />
+                <button onClick={onBtnCalculateClick}>Calculate</button>
+                <div className="result">{result}</div>
+            </div>
+        )
+    }
+
+
+    const store = StateManager.createStore(calculatorReducer);
+
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    function renderCalculator(){
+        root.render(<Calculator store={store}/>)
+    }
+    renderCalculator()
+    store.subscribe(renderCalculator);
+    </script>
+</head>
+<body>
+    <div id="root">
+        <!-- convert the following in to a react component -->
+        
+    </div>
+</body>
+</html>

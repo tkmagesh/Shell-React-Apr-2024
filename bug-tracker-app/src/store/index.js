@@ -6,9 +6,20 @@ import projectsReducer from '../projects/reducers/projectsReducer'
 // const store = createStore(bugsReducer);
 // const store = createStore(projectsReducer);
 
+function errorReducer(currenState = '', action){
+    switch (action.type) {
+      case "SET_APP_ERROR":
+        return action.payload;
+      case 'CLEAR_APP_ERROR':
+        return '';
+      default:
+        return currenState;
+    }
+}
 const rootReducer = combineReducers({
-    bugs : bugsReducer,
-    projects : projectsReducer
+  bugs: bugsReducer,
+  projects: projectsReducer,
+  errors: errorReducer,
 });
 
 // loggerMiddleware
@@ -35,20 +46,38 @@ const loggerMiddleware = store => next => action => {
     console.groupEnd();
 }
 
-const appMiddleware = store => next => {
+const asyncMiddleware = store => next => {
     return action => {
         if (typeof action === 'function'){
-            /* action(store.dispatch, store.getState) */
-            const actionObj = action(store.getState)
-            return next(actionObj)
+            return action(store.dispatch, store.getState)
         }
         return next(action)
     }
 }
 
+const promiseMiddleware = store => next => action => {
+    if (action instanceof Promise){
+        action
+            .then(function(actionObj){
+                store.dispatch(actionObj)
+            })
+            .catch(function(err){
+                store.dispatch({ type : 'SET_APP_ERROR', payload : err.toString()})
+                setTimeout(() => {
+                    store.dispatch({
+                      type: "CLEAR_APP_ERROR"
+                    });
+                }, 5000);
+            })
+
+        return;
+    }
+    return next(action)
+}
+
 const store = createStore(
   rootReducer,
-  applyMiddleware(loggerMiddleware, appMiddleware)
+  applyMiddleware(loggerMiddleware, asyncMiddleware, promiseMiddleware)
 );
 
 

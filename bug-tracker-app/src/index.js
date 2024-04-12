@@ -2,22 +2,31 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
-import { Provider } from 'react-redux';
+import { Provider, useSelector } from 'react-redux';
 import store from './store';
 import BugTracker from './bugs';
 import ProjectsTracker from './projects';
 
-import axios from 'axios';
-window['axios'] = axios;
-
 const root = ReactDOM.createRoot(document.getElementById("root"));
+
+function App({children}){
+  const error = useSelector(storeState => storeState.errors)
+  return (
+    <div>
+      { error && (<div>Error : {error} </div>) }
+      {children}
+    </div>
+  )
+}
 
 root.render(
   <Provider store={store}>
-    <div class="flex-container">
-      <BugTracker />
-      <ProjectsTracker />
-    </div>
+    <App>
+      <div class="flex-container">
+        <BugTracker />
+        <ProjectsTracker />
+      </div>
+    </App>
   </Provider>
 );
 

@@ -3,7 +3,31 @@ import BugEdit from './views/BugEdit'
 import BugList from './views/BugList'
 import './index.css';
 
-function BugTracker({ bugs, createNew, toggle, remove, removeClosed }) {
+import {useSelector, useDispatch} from 'react-redux';
+import * as bugActionCreators from './actions';
+import { bindActionCreators } from 'redux';
+
+// Container Component - interact with the store state infrastructure
+function BugTracker() {
+
+  // extract data from the store
+  /* 
+  const bugs = useSelector(function(storeState){
+    return storeState.bugs;
+  }); 
+  */
+
+  // const bugs = useSelector(storeState => storeState.bugs)
+  const bugs = useSelector(({bugs}) => bugs)
+
+  // creating action dispatchers
+  /* 
+  const dispatch = useDispatch()
+  const bugActionDispatchers = bindActionCreators(bugActionCreators, dispatch);
+  const {createNew, toggle, remove, removeClosed} = bugActionDispatchers; 
+  */
+  const {createNew, toggle, remove, removeClosed} = bindActionCreators(bugActionCreators, useDispatch())
+
   const closedCount = bugs.reduce(
     (prevResult, bug) => (bug.isClosed ? prevResult + 1 : prevResult),
     0

@@ -18,7 +18,7 @@ export default store;
 /* 
 store.getState() =>
  {
-    bugs : [...all the bugs],
+    bugs : {},
     projects : [...all the projects]
  }
 */

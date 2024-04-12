@@ -5,10 +5,18 @@ import reportWebVitals from './reportWebVitals';
 import { bindActionCreators } from 'redux';
 import store from './store';
 import * as bugActionCreators from './bugs/actions'
+import * as projectActionCreators from './projects/actions';
+
 import BugTracker from './bugs';
+import ProjectsTracker from './projects';
 
 const bugActionDispatchers = bindActionCreators(
   bugActionCreators,
+  store.dispatch
+);
+
+const projectActionDispatchers = bindActionCreators(
+  projectActionCreators, 
   store.dispatch
 );
 
@@ -16,10 +24,18 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 
 function renderBugTracker() {
   // extract the state from the store
-  const bugs = store.getState();
+  const storeState = store.getState()
+  console.log('storeState ', storeState);
 
-  // pass the state & action dispatchers to the component
-  root.render(<BugTracker bugs={bugs} {...bugActionDispatchers} />);
+  const bugs = storeState.bugs,
+    projects = storeState.projects;
+
+  root.render(
+    <div>
+      <ProjectsTracker projects={projects} {...projectActionDispatchers} />
+      <BugTracker bugs={bugs} {...bugActionDispatchers} />
+    </div>
+  );
 }
 renderBugTracker();
 store.subscribe(renderBugTracker);

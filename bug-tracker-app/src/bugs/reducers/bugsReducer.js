@@ -1,4 +1,7 @@
-let initialState = [];
+let initialState = [
+  { id: 1, name: "Bug - 1", isClosed: false, createdAt: new Date() },
+  { id: 2, name: "Bug - 2", isClosed: true, createdAt: new Date() },
+];
 
 function bugsReducer(currentState = initialState, action) {
   switch (action.type) {

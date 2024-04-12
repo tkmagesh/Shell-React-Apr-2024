@@ -1,7 +1,6 @@
 
 import { useState} from 'react';
-import { bindActionCreators } from 'redux';
-import * as projectActionCreators  from './actions';
+
 
 export default function ProjectsTracker({projects, createNew, remove}){
     const [newProjectName, setNewProjectName]= useState('')

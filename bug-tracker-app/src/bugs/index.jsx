@@ -11,6 +11,7 @@ function BugTracker({ bugs, createNew, toggle, remove, removeClosed }) {
 
   return (
     <div>
+      <h3>Bugs</h3>
       {/* BugStats */}
       <BugStats count={bugs.length} closedCount={closedCount} />
       {/* BugEdit */}

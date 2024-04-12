@@ -6,14 +6,14 @@ import { Provider } from 'react-redux';
 import store from './store';
 import BugTracker from './bugs';
 import ProjectsTracker from './projects';
-// import ProjectsTracker from './projects';
+
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
 root.render(
   <Provider store={store}>
     <div>
-      {/* <ProjectsTracker/> */}
+      <ProjectsTracker/>
       <BugTracker/>
     </div>
   </Provider>

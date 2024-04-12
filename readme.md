@@ -3,6 +3,7 @@
 ## Magesh Kuppan
 tkmagesh77@gmail.com
 
+https://linkedin.com/in/tkmagesh
 
 ## Chat
 - https://chat.olzhasar.com/r/7c84de6b-0bba-4884-b749-a22dfbc414f0
@@ -130,3 +131,5 @@ TODO:
 
 copy the 'build' folder to any webserver
 
+## Debugging React App in VSCode
+- https://reintech.io/blog/debugging-react-code-comprehensive-guide-react-developers

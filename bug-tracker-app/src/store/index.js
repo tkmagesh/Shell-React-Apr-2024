@@ -38,11 +38,11 @@ const loggerMiddleware = store => next => action => {
 const appMiddleware = store => next => {
     return action => {
         if (typeof action === 'function'){
-            const actionObj = action(store.getState);
-            store.dispatch(actionObj)
-            return
+            /* action(store.dispatch, store.getState) */
+            const actionObj = action(store.getState)
+            return next(actionObj)
         }
-        next(action)
+        return next(action)
     }
 }
 

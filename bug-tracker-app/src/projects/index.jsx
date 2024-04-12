@@ -14,7 +14,10 @@ export default function ProjectsTracker(){
 
     const projectItems = projects.map(project => (
         <li key={project.id}>
-            <span>{project.name}</span>
+            <span>
+                    {project.name}
+                    <span> [bugsCount] </span>
+            </span>
             <button onClick={() => remove(project)}>Remove</button>
         </li>
     ))

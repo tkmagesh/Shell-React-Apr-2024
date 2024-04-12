@@ -109,3 +109,9 @@ div{This is the content of a div}
 /index.js
 
 ```
+
+TODO:
+1. List the projects in the 'projects' dropdown in 'BugEdit.jsx'
+2. Every bug must have a new attribute 'projectId' with the id of the selected project
+3. BugItem.jsx should display each bug with the 'Project Name'
+4. Each project in 'Projects/index.jsx' should display the total number of bugs in the project with the project name

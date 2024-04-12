@@ -7,6 +7,8 @@ import store from './store';
 import BugTracker from './bugs';
 import ProjectsTracker from './projects';
 
+import axios from 'axios';
+window['axios'] = axios;
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 

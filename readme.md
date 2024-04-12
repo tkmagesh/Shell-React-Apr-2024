@@ -115,3 +115,10 @@ TODO:
 2. Every bug must have a new attribute 'projectId' with the id of the selected project
 3. BugItem.jsx should display each bug with the 'Project Name'
 4. Each project in 'Projects/index.jsx' should display the total number of bugs in the project with the project name
+
+## Setup REST API server
+```
+    Open a new terminal (command prompt)
+    In the 11-data-server folder
+    > npx json-server db.json -p 3030
+```

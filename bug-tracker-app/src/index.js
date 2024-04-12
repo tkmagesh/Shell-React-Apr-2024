@@ -12,9 +12,9 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 
 root.render(
   <Provider store={store}>
-    <div>
-      <ProjectsTracker/>
-      <BugTracker/>
+    <div class="flex-container">
+      <BugTracker />
+      <ProjectsTracker />
     </div>
   </Provider>
 );

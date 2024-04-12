@@ -7,7 +7,9 @@ import { bindActionCreators } from 'redux';
 
 export default function ProjectsTracker(){
     
-    const projects = useSelector(storeState => storeState.projects);
+    const projects = useSelector(({bugs, projects}) => {
+        return projects.map(project => ({...project, bugsCount : bugs.reduce((prevResult, bug) => bug.projectId === project.id ? prevResult + 1 : prevResult, 0)}))
+    });
     const { createNew, remove } = bindActionCreators(projectActionCreators, useDispatch())
     
     const [newProjectName, setNewProjectName]= useState('')
@@ -16,7 +18,7 @@ export default function ProjectsTracker(){
         <li key={project.id}>
             <span>
                     {project.name}
-                    <span> [bugsCount] </span>
+                    <span> [ {project.bugsCount} ] </span>
             </span>
             <button onClick={() => remove(project)}>Remove</button>
         </li>

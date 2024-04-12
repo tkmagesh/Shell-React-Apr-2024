@@ -18,7 +18,12 @@ function BugTracker() {
   */
 
   // const bugs = useSelector(storeState => storeState.bugs)
-  const bugs = useSelector(({bugs}) => bugs)
+  const {bugs, projects} = useSelector(({bugs, projects}) => {
+    return {
+      projects : projects,
+      bugs : bugs.map(bug => ({...bug, projectName : projects.find(project => project.id === bug.projectId).name}))
+    }
+  })
 
   // creating action dispatchers
   /* 
@@ -39,9 +44,9 @@ function BugTracker() {
       {/* BugStats */}
       <BugStats count={bugs.length} closedCount={closedCount} />
       {/* BugEdit */}
-      <BugEdit createNew={createNew} />
+      <BugEdit createNew={createNew} projects={projects} />
       {/* BugList */}
-      <BugList {...{ bugs, toggle, remove, removeClosed }} />
+      <BugList {...{ bugs, toggle, remove, removeClosed}} />
     </div>
   );
 }

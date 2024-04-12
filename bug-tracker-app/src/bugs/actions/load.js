@@ -1,5 +1,8 @@
 import * as bugApi from '../services/bugApi'
 
+// action creator returns a promise which will be resolved with the action object in future
+// the returned promise is handled by the 'promiseMiddleware'
+
 export async function load() {
   const bugs = await bugApi.getAll()
   const initAction = { type: "BUGS_INIT", payload: bugs };

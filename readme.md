@@ -1,6 +1,8 @@
 # React Training
 
 ## Magesh Kuppan
+tkmagesh77@gmail.com
+
 
 ## Chat
 - https://chat.olzhasar.com/r/7c84de6b-0bba-4884-b749-a22dfbc414f0
@@ -122,3 +124,9 @@ TODO:
     In the 11-data-server folder
     > npx json-server db.json -p 3030
 ```
+
+## To create a build
+> npm run build
+
+copy the 'build' folder to any webserver
+

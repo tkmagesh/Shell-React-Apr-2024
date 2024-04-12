@@ -3,31 +3,8 @@
     {
       "id": 1,
       "name": "Bug - 1",
-      "isClosed": true,
-      "createdAt": "2024-04-12T16:02:20.576Z",
-      "projectId": 1,
-      "projectName": "Bug Tracker"
-    },
-    {
-      "id": 2,
-      "name": "Bug - 2",
       "isClosed": false,
-      "createdAt": "2024-04-12T16:02:25.089Z",
-      "projectId": 2
-    },
-    {
-      "id": 3,
-      "name": "Bug - 3",
-      "isClosed": true,
-      "createdAt": "2024-04-12T16:02:27.714Z",
-      "projectId": 2,
-      "projectName": "Time Tracker"
-    },
-    {
-      "id": 4,
-      "name": "Bug - 4",
-      "isClosed": false,
-      "createdAt": "2024-04-12T16:02:32.906Z",
+      "createdAt": "2024-04-12T16:25:26.537Z",
       "projectId": 1
     }
   ],

@@ -22,7 +22,7 @@ function App({children}){
 root.render(
   <Provider store={store}>
     <App>
-      <div class="flex-container">
+      <div className="flex-container">
         <BugTracker />
         <ProjectsTracker />
       </div>
